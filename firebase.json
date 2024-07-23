@@ -1,0 +1,25 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "appdotroco",
+          "appId": "1:133154062140:android:3b7dcded962043c5aaa839",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "appdotroco",
+          "configurations": {
+            "android": "1:133154062140:android:3b7dcded962043c5aaa839",
+            "ios": "1:133154062140:ios:d504321183394092aaa839",
+            "macos": "1:133154062140:ios:d504321183394092aaa839",
+            "web": "1:133154062140:web:066806a0e68d0a77aaa839",
+            "windows": "1:133154062140:web:61d9724d34817346aaa839"
+          }
+        }
+      }
+    }
+  }
+}

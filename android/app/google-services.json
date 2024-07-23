@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "133154062140",
+    "firebase_url": "https://appdotroco-default-rtdb.firebaseio.com",
+    "project_id": "appdotroco",
+    "storage_bucket": "appdotroco.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133154062140:android:3b7dcded962043c5aaa839",
+        "android_client_info": {
+          "package_name": "com.example.app_troco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133154062140-c1s0vcs790lroe3krdo0ofsr232qgg85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8BsTrs374hbEvlmf4-DE4ZGfAh__FDMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133154062140-c1s0vcs790lroe3krdo0ofsr232qgg85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

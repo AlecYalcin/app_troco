@@ -24,18 +24,35 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatefulWidget {
   final String title;
+
+  const MyHomePage({super.key, required this.title});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+
+  void _onTabSelected(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: title,
+        title: widget.title,
       ),
-      body: const MyBody(),
-      bottomNavigationBar: MyBottomNavigationBar(),
+      body: MyBody(currentIndex: _currentIndex),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTabSelected: _onTabSelected,
+      ),
     );
   }
 }
@@ -59,28 +76,35 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class MyBody extends StatefulWidget {
-  const MyBody({super.key});
+class MyBody extends StatelessWidget {
+  final int currentIndex;
+  const MyBody({super.key, required this.currentIndex});
 
-  @override
-  State<MyBody> createState() => _MyBodyState();
-}
-
-class _MyBodyState extends State<MyBody> {
   @override
   Widget build(BuildContext context) {
-    return ListTableWidget();
+    final pages = [const ListTableWidget(), const ListMenuWidget()];
+
+    return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 1000),
+        child: pages[currentIndex]);
   }
 }
 
 class MyBottomNavigationBar extends HookWidget {
-  const MyBottomNavigationBar({super.key});
+  final int currentIndex;
+  final ValueChanged<int> onTabSelected;
+
+  const MyBottomNavigationBar(
+      {super.key, required this.currentIndex, required this.onTabSelected});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(items: const [
-      BottomNavigationBarItem(label: 'Mesas', icon: Icon(Icons.restaurant)),
-      BottomNavigationBarItem(label: 'Menus', icon: Icon(Icons.menu_book))
-    ]);
+    return BottomNavigationBar(
+        onTap: onTabSelected,
+        currentIndex: currentIndex,
+        items: const [
+          BottomNavigationBarItem(label: 'Mesas', icon: Icon(Icons.restaurant)),
+          BottomNavigationBarItem(label: 'Menus', icon: Icon(Icons.menu_book))
+        ]);
   }
 }

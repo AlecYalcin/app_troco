@@ -4,21 +4,22 @@ import 'package:app_troco/components/my_textrow.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+  const RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   // methods
-  void signUserIn() async {
+  void registerUserIn() async {
     // loading screen
     showDialog(
         context: context,
@@ -27,14 +28,19 @@ class _LoginPageState extends State<LoginPage> {
             child: CircularProgressIndicator(),
           );
         });
-    // try sign in
+    // try creating user
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Navigator.pop(context);
+      } else {
+        Navigator.pop(context);
+        showErrorMessage('As senhas não são iguais.');
+      }
       // Pop loading Screen
-      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       // Pop loading Screen
       Navigator.pop(context);
@@ -78,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 50),
                 // Bem vindo de volta
                 Text(
-                  "Bem vindo, sentimos sua falta!",
+                  "Vamos criar uma conta para você!",
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -102,18 +108,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 const SizedBox(height: 10),
-                // esqueceu a senha?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Esqueceu sua senha?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
+
+                MyTextField(
+                  controller: confirmPasswordController,
+                  hintText: "Confirmar Senha",
+                  obscureText: true,
                 ),
 
                 const SizedBox(height: 25),
@@ -128,16 +127,16 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Entrar no sistema
                 MyButton(
-                  text: "Conectar-se",
-                  onTap: signUserIn,
+                  text: "Criar sua conta!",
+                  onTap: registerUserIn,
                 ),
 
                 const SizedBox(height: 10),
                 // Não tem uma conta? faça uma agora
                 MyTextRow(
                   onTap: widget.onTap,
-                  helpText: 'Não possui uma conta?',
-                  coloredText: 'Crie uma agora!',
+                  helpText: 'Já possui uma conta?',
+                  coloredText: 'Entre agora!',
                 ),
 
                 const SizedBox(height: 10),

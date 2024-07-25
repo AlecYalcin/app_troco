@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -42,12 +43,22 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const MyAppBar({super.key, required this.title});
 
+  // methods
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     //backgroundColor: Theme.of(context).colorScheme.inversePrimary
     return AppBar(
-        leading: const Padding(
-            padding: EdgeInsets.all(8.0), child: Icon(Icons.reorder)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            onPressed: signUserOut,
+            icon: const Icon(Icons.logout),
+          ),
+        ),
         backgroundColor: Colors.blue,
         title: Text(title));
   }
